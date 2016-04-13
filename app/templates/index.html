@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row greeting" style="display: inline">
+
+  <div class="col-md-2">
+  </div>
+
+  <div align="center" class="col-md-8">
+    <center><img class="img-responsive" src="/static/images/bookshelf.png"><center>
+      <h1>A place to keep your books.</h1>
+      <div>
+        <p class="lead">
+          Bookkeepr is for keeping track
+          of books you love. Create your free account and get started
+          organizing and sharing your favorite books with friends.
+        </p>
+        <a class="btn btn-info" href="{{ url_for('register') }}">Get Started</a>
+      </div>
+    </div>
+
+    <div class="col-md-2">
+    </div>
+
+</div> <!-- end row -->
+
+<br>
+<div class="row">
+  <div class="col-md-4 col-sm-4 col-xs-12">
+    <div class="panel panel-index">
+      <div class="panel-body">
+        <center><img class="img-responsive" src="/static/images/stacks.png"></center>
+        <h3>Find books.</h3>
+        <p>Our database contains books for all ages and reading levels. 
+          Create separate lists for
+          each genre or mix it up to make your own.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 col-sm-4 col-xs-12">
+    <div class="panel panel-index">
+      <div class="panel-body">
+        <center><img class="img-responsive" src="/static/images/add-friends.png"></center>
+        <h3>Add friends.</h3>
+        <p>
+          Reading is more fun when you share your experience with friends. 
+          Bookkeepr makes it easy to see what friends are reading.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 col-sm-4 col-xs-12">
+    <div class="panel panel-index">
+      <div class="panel-body">
+        <center><img class="img-responsive" src="/static/images/new-reviews.png"></center>
+        <h3>Write Reviews <small>Coming Soon!</small></h3>
+        <p>
+          Review books and let your friends know what you think. 
+          Or create an online book club and start insightful discussions.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

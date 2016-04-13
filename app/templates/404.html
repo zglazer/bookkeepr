@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+<div class="row">
+<div class="col-md-4">
+<h1>Darn it.</h1>
+<p>The page you're looking for isn't here. Go back and try something else, or search for books up above.</p> 
+<p><a class="btn btn-lg btn-default" href="{{ url_for('index') }}"><span style="margin-right: 10px" class="glyphicon glyphicon-circle-arrow-left"></span> Back</a></p>
+</div>
+
+<div class="row">
+<img class="img-responsive" src="/static/images/404.png">
+</div>
+
+</div>
+</div>
+{% endblock %}

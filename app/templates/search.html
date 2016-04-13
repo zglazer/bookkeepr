@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Search</h1>
+<div>
+    {% from "_formhelpers.html" import render_field %}
+    <p class="help-block">
+        Search by title, author, ISBN, etc.
+    </p>
+    
+    <form action="" method="post" name="search" class="form-group">
+      {{form.hidden_tag()}}
+      {{ render_field(form.search, no_label = True, placeholder="Search books, users", style="width: 40%")}}
+      <input class="btn btn-default" type="submit" value="Search">
+    </form>
+</div>
+{% endblock %}

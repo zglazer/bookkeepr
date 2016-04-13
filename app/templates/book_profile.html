@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-lg-8 col-md-8">
+    <table>
+        <tr>
+            <td>
+                <img class="book-img" src="{{book.image_url|default('static/images/image-unavailable.png')}}" width=128px>
+            </td>
+            <td class="td-profile-book"> 
+                <h1>{{book.title}}</h1>
+                <h3>{{book.author}}</h3>
+            </td>
+        </tr>
+    </table>
+        {% if g.user.is_authenticated() %}  
+            <div class="btn-group">
+                <div class="btn-group">
+                    <button id="addBookButton" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-plus"></span> Add book</button>
+                        <ul class="dropdown-menu" role="menu">
+                            {% if g.user.lists.count() > 0 %}
+                            {% for list in g.user.lists.all() %}
+                            <li><a onclick="addBook( {{list.id}} )">{{list.title}}</a></li>
+                            {% endfor %}
+                            {% else %}
+                            <li class="disabled"><a>(None)</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                    <div class="btn-group">
+                        {% if g.user.lists_with_book_count(book) > 0 %}
+                        <button id="removeBookButton" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-minus"></span> Remove book</button>
+                            <ul class="dropdown-menu" role="menu">
+                                {% for list in g.user.lists_with_book_all(book) %}
+                                <li><a onclick="removeBook( {{list.id}} )">{{list.title}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                         <button id="removeBookButton" type="button" class="btn btn-default dropdown-toggle disabled" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-minus"></span> Remove book</button>
+                        {% endif %}
+                    </div>
+            </div>
+        
+        {% endif %}
+    </table>
+</div>
+
+<div class="col-lg-4 col-md-4">
+<h3>{{users|count}} Interested users</h3>
+{% for user in users[:10] %}
+<p>
+    <a href="{{url_for('user', username = user.username)}}">
+        <img src="{{user.profile_url}}" class="img-circle" style="max-height: 60px; padding: 0px 10px 0px 0px">
+        {{user.username}}
+    </a>
+</p>
+{% endfor %}
+</div>
+
+</div> <!-- end row -->
+
+
+<div class="row">
+    <div class="col-md-8">
+        <p class="h3">Summary</p>
+        <p>{{book.description|safe}}</p>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
+<script>
+
+function addBook(listId) {
+    $.post("/book/add", {
+        book_id: {{book.id}},
+        list_id: listId
+    }).done(function() {
+        $('.btn-group').replaceWith("<button type='button' class='btn btn-default' disabled='disabled'>Book added</button>");
+        bookkeepr.flash("Book added to your list!", "info");
+        // TODO: update interested users???
+    }).fail(function() {
+        bookkeepr.flash("Error contacting the server. Book was not added.", "danger");
+    });
+}
+
+function removeBook(listId) {
+    $.post("/book/remove", {
+        book_id: {{book.id}}, 
+        list_id: listId
+    }).done(function() {
+        $('.btn-group').replaceWith("<button type='button' class='btn btn-default' disabled='disabled'>Book removed</button>");
+        bookkeepr.flash("Book removed from your list!", "info")
+        // remove from drop down?
+    }).fail(function() {
+        bookkeepr.flash("Error contacting the server. Book was not removed.", "danger");
+    })
+
+}
+</script>
+{% endblock %}

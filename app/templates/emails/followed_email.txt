@@ -1,0 +1,7 @@
+Hi {{user.nickname}},
+
+You have just been followed by {{follow_user.nickname}}! Congratulations!
+
+Best,
+
+The bookkeepr team

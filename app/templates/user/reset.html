@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Password Reset</h1>
+<p class="help-block">
+    Enter your email address in the box below and bookkeepr 
+    will send you a password reset link.
+</p>
+{% from "_formhelpers.html" import render_field %}
+<form action="" method="post" name="reset">
+    <div class="form-group" style="width: 40%">
+        {{ form.hidden_tag() }}
+        {{ render_field(form.email, class="form-control", placeholder="harry@potter.com") }}
+        <p><input class="btn btn-info" type="submit" value="Send Reset"></p>
+    </div>
+</form>
+{% endblock %}

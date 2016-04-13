@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div align="center">
+    <h1>Welcome {{user.nickname}}!</h1>
+</div>
+
+<div class="row">
+    <div class="col-lg-9 col-md-8 col-sm-8 col-xs-6">
+        <img class="img-responsive profile-img" src="{{user.profile_url}}" style="max-height: 300px;">
+    </div>
+
+    <!-- follow box -->
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+        <div class="panel panel-default">
+          <div class="panel-heading"><span class="h5">Following</span></div>
+          <div class="panel-body">
+            <div class="listbox">
+                {% for following in user.followed.all() %}
+                <p>
+                    <a href="{{url_for('user', username=following.username)}}">
+                        <img class="img-circle" src="{{following.profile_url}}" alt="{{following.username}}" title="{{following.username}}" width="42px" style="padding: 0px 5px 0px 0px">{{following.nickname}}
+                    </a>
+                </p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    </div> <!-- end follow box -->
+</div> <!-- end row -->
+
+<br>
+<!-- Add List drop down menu -->
+<div class="btn-group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+    Your Lists <span class="caret"></span>
+</button>
+<ul class="dropdown-menu" role="menu">
+    <li><a onclick="showListForm()">Add List</a></li>
+    {% if lists %}
+    <li class="divider"></li>
+    {% endif %}
+    {% for list in lists %}
+    <li><a href="#list{{loop.index0}}">{{ list.title }}</a></li>
+    {% endfor %}
+</ul>
+</div> <!-- end Add List drop down menu -->
+
+<form class="form-inline" role="form" name="newlist" id="newlist" hidden="yes" action="{{url_for('add_list')}}" method="post">
+    <div class="form-group">
+        <div class="input-group">
+            <input class="form-control" type="text" name="listname" id="listname" value="" placeholder="New List">
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-default" name="add" onclick="addList()">Add List</button>
+        <button type="button" class="btn btn-default" name="cancel" onclick="hideForm()">Cancel</button>
+    </div>
+</form>
+
+<!-- start list tables -->
+{% for list in lists %}
+
+<div class="dropdown">
+    <a name="#list{{loop.index0}}"></a>
+    <div class="h3 dropdown" id="list{{loop.index0}}" onmouseover="showCog( {{loop.index0}} )" onmouseout="hideCog( {{loop.index0}} )">{{list.title}}
+
+        <!-- start dropdown settings menu -->
+        <div class="dropdown" style="display:inline">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="cog{{loop.index0}}" style="visibility: hidden"><span class="glyphicon glyphicon-cog"></span></button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <li role="presentation"><a role="menuitem" tabindex="-1" id="edit{{list.id}}" onclick="editList( {{list.id}} )">Edit</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" id="remove{{list.id}}" onclick="removeList( {{list.id}} )">Remove</a></li>
+            </ul>
+        </div> <!-- end dropdown settings menus -->
+
+    </div> <!-- end dropdown -->
+
+    {% if list.books.count() == 0 %}
+    {% include "list/empty_list_table.html" %}
+    {% else %}
+    {% include "list/normal_list_table.html" %}
+    {% endif %}
+
+    {% endfor %} <!-- end list tables -->
+
+    <script>
+
+    function showListForm() {
+        document.getElementById("newlist").style.display = "block";
+        document.getElementById("listname").focus();
+    }
+
+    function hideForm() {
+        document.getElementById("newlist").style.display = "none";
+    }
+
+    function addList() {
+        var title = document.getElementById("listname").value;
+        if (title != "") {
+            $.post("/lists/add", {
+                listname: title, 
+                method: "AJAX"
+            }).done(function() {
+                document.getElementById("listname").value = "";
+                hideForm();
+                bookkeepr.flash("List successfully added! Reload to see new list.", "info");
+            }).fail(function() {
+                bookkeepr.flash("Error contacting the server. Please try again.", "danger");
+            });
+        }
+        else {
+            bookkeepr.flash("List titles cannot be empty!", "danger");
+        }
+    }
+
+    function removeList(id) {
+        bootbox.confirm("<p class='h3 text-danger'>Delete List</p>" +
+            "Deleting a list will remove all books you have on the list as well. " + 
+            "This action cannot be undone.<br><br>" +
+            "<strong>Click OK to delete this list.</strong>", function(result){
+                if (result == true) {
+                    $.post("/lists/remove", {
+                        id: id
+                    }).done(function(resp) {
+                       document.location.reload(true);
+                   }).fail(function() {
+                    bookkeepr.flash("Error contacting the server. Please try again.", "danger");
+                });
+               }
+           });
+    }
+
+    function editList(id) {
+        bootbox.prompt("Edit list name", function(result) {
+            if (result !== null) {
+            // check for blank
+            if (result != "") {
+                $.post("/lists/edit", {
+                    id: id,
+                    title: result
+                }).done(function(resp) {
+                    document.location.reload(true);
+                }).fail(function() {
+                    bookkeepr.flash("Error contacting the server. Please try again.", "danger");
+                });
+            }
+            else {
+                bookkeepr.flash("List names cannot be blank!", "danger");
+            }
+        }
+    });
+    }
+
+    function handle(e) {
+        if (e.keyCode === 13) {
+            addList();
+        }
+
+        return false;
+    }
+
+    function showCog(position) {
+        $("#cog" + position).css("visibility", "visible");
+    }
+
+    function hideCog(position) {
+        $("#cog" + position).css("visibility", "hidden");
+    }
+
+    </script>
+
+
+    {% endblock %}

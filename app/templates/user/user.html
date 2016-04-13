@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-6 col-sm-6 col-xs-4">
+    {% if user.profile_url is none %}
+    <img src="/static/images/image-unavailable.png">
+    {% else %}
+    <img class="img-responsive profile-img" src="{{user.profile_url}}" style="max-height: 300px">
+    {% endif %}
+  </div>
+
+  <div class="col-md-6 col-sm-6 col-xs-8">
+    <ul class="list-group">
+      <li class="list-group-item">
+        <span class="badge">{{user.books.count()}}</span>
+        Books
+      </li>
+      <li class="list-group-item">
+        <span class="badge">{{user.lists.count()}}</span>
+        Lists
+      </li>
+      <li class="list-group-item">
+        <span class="badge">{{user.followed.count()}}</span>
+        Following
+      </li>
+      <li class="list-group-item">
+        <span class="badge">{{user.followers.count()}}</span>
+        Followers
+      </li>
+    </ul>
+  </div>
+
+</div> <!-- end row -->
+
+<!-- follow/unfollow user -->
+{% if current_user.is_authenticated() and current_user != user %}
+    {% if current_user.is_following(user) %}
+    <button id="unfollowUserButton" type="button" class="btn btn-default" onclick="bookkeepr.unfollowUser({{user.id}})">
+      <span class="glyphicon glyphicon-remove"></span> Unfollow user</button>
+
+    {% else %}
+    <button id="followUserButton" type="button" class="btn btn-default" onclick="bookkeepr.followUser({{user.id}})">
+      <span class="glyphicon glyphicon-plus"></span> Follow user</button>
+    {% endif %}
+{% endif %}
+
+<h3>{{user.nickname}}'s book list</h3>
+
+{% if books|count > 0 %}
+<table class="table" style="width: 100%">
+  <tr>
+    <td><strong>Title</strong></td> 
+    <td><strong>Author</strong></td> 
+    <td></td>
+  </tr>
+  {% else %}
+  <p class="h4">No books</p>
+  {% endif %}
+  {% for book in books %}
+  {% include "user/book_user.html" %}
+  {% endfor %}
+</table>
+
+{% endblock %}

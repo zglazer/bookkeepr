@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Password Reset</h1>
+{% from "_formhelpers.html" import render_field %}
+<form action="" method="post" name="reset">
+    <div class="form-group" style="width: 40%">
+    {{ form.hidden_tag() }}
+    <p>
+    {{ render_field(form.password) }}
+    </p>
+    <p><input class="btn btn-default" type="submit" value="Reset password"></p>
+    </div>
+</form>
+{% endblock %}

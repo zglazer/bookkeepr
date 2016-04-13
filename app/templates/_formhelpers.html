@@ -1,0 +1,64 @@
+{# helper macros for forms and more #}
+
+{% macro render_field(field, no_label = False) %}
+  <tr>
+  <td>
+    {% if no_label == False %}
+    <p style="margin-bottom:0px;">{{ field.label }}</p>
+    {% endif %}
+    <p>{{ field(class="form-control", **kwargs)|safe }}</p>
+    {% if field.errors %}
+      {% for error in field.errors %}
+        <p class="text-danger">{{error}}</p>
+      {% endfor %}
+    {% endif %}
+  </td>
+  </tr>
+{% endmacro %}
+
+{% macro photo_form(field) %}
+  <dt>Photo</dt>
+
+{% endmacro %}
+
+{% macro pagination(page, search_term) %}
+  
+  {% if page == 1 %}
+
+  <ul class="pagination">
+    <li class="disabled"><a>&laquo;</a></li>
+    <li class="active"><a class="active">{{page}}</a></li>
+    <li><a href="{{url_for('search', page=page + 1, q = search_term)}}">{{page + 1}}</a></li>
+    <li><a href="{{url_for('search', page=page + 2, q = search_term)}}">{{page + 2}}</a></li>
+    <li><a href="{{url_for('search', page=page + 3, q = search_term)}}">{{page + 3}}</a></li>
+    <li><a href="{{url_for('search', page=page + 4, q = search_term)}}">{{page + 4}}</a></li>
+    <li><a href="{{url_for('search', page=page + 1, q = search_term)}}">&raquo;</a></li>
+  </ul>
+
+  {% elif page == 2 %}
+
+  <ul class="pagination">
+    <li><a href="{{url_for('search', page = page - 1, q = search_term)}}">&laquo;</a></li>
+    <li><a href="{{url_for('search', page = page - 1, q = search_term)}}">{{page - 1}}</a></li>
+    <li class="active"><a>{{page}}</a></li>
+    <li><a href="{{url_for('search', page=page + 1, q = search_term)}}">{{page + 1}}</a></li>
+    <li><a href="{{url_for('search', page=page + 2, q = search_term)}}">{{page + 2}}</a></li>
+    <li><a href="{{url_for('search', page=page + 3, q = search_term)}}">{{page + 3}}</a></li>
+    <li><a href="{{url_for('search', page=page + 1, q = search_term)}}">&raquo;</a></li>
+  </ul>
+
+  {% else %}
+
+  <ul class="pagination">
+    <li><a href="{{url_for('search', page = page - 1, q = search_term)}}">&laquo;</a></li>
+    <li><a href="{{url_for('search', page = page - 2, q = search_term)}}">{{page - 2}}</a></li>
+    <li><a href="{{url_for('search', page = page - 1, q = search_term)}}">{{page - 1}}</a></li>
+    <li class="active"><a>{{page}}</a></li>
+    <li><a href="{{url_for('search', page=page + 1, q = search_term)}}">{{page + 1}}</a></li>
+    <li><a href="{{url_for('search', page=page + 2, q = search_term)}}">{{page + 2}}</a></li>
+    <li><a href="{{url_for('search', page=page + 1, q = search_term)}}">&raquo;</a></li>
+  </ul>
+
+  {% endif %}
+
+{% endmacro %}

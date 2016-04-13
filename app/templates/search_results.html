@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Search Results</h1>
+
+<div class="row">
+
+<!-- list book search results -->
+<div class="col-lg-9 col-md-9">
+<div>
+    {% with startIndex = (page - 1) * config.MAX_RESULTS %}
+    <span class="badge">{{startIndex}} - {{startIndex + (items|count) - 1 }}</span> of {{count}} book results shown for <span class="text-primary" style="font-weight: bold">"{{search_term}}"</span>
+    {% endwith %}
+</div>
+
+<table>
+    {% for item in items %}
+    <tr>
+        <td class="td-search-results">
+            {% if 'imageLinks' not in item['volumeInfo'] %}
+            <img class="book-img" style="border:none" src="/static/images/image-unavailable.png" width=128px>
+            {% else %}
+            <img class="book-img" src="{{ item['volumeInfo']['imageLinks']['thumbnail'] }}">
+            {% endif %}
+        </td>
+        <td class="td-profile-book">
+        <div class="h3">
+            <a href="{{ url_for('create_book', volume_id = item['id']) }}" >{{ item['volumeInfo']['title'] }}</a>
+            <p class="h4">{{ ', '.join(item['volumeInfo'].get('authors', ["Author not listed"])) }}</p>
+        </div>
+            <p>
+                {% if books.get(item['id']) is not none  %} 
+                    {% if books[item['id']].users.count() == 1 %}
+                    1 user interested
+                    {% else %}
+                    {{books[item['id']].users.count()  }} users interested
+                    {% endif %}
+                    {% else %}
+                    0 users interested
+                {% endif %}
+            </p>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+
+<!-- list user search results -->
+<div class="col-lg-3 col-md-3">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">User Search Results</h3>
+        </div>
+        <div class="panel-body">
+            {% for user in users %}
+            <p>
+                <a href="{{url_for('user', username = user.username)}}">
+                    <img src="{{user.profile_url}}" class="img-circle" style="max-height: 60px; padding: 0px 10px 0px 0px">
+                    {{user.username}}
+                </a>
+            </p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+</div> <!-- end row -->
+
+<div class="row">
+    <!-- pagination -->
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        {% from "_formhelpers.html" import pagination %}
+        {{ pagination(page, search_term) }}
+    </div>
+
+    <div class="col-md-4"></div>
+</div>
+
+{% endblock %}

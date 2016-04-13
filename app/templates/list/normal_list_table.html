@@ -1,0 +1,11 @@
+{# list table used in dashboard to display books #}
+<table class="table table-striped" style="width: 100%">
+  <tr>
+    <td><strong>Title</strong></td> 
+    <td><strong>Author</strong></td> 
+    <td></td>
+  </tr>
+  {% for book in list.books %}
+    {% include "list/book.html" %}
+  {% endfor %}
+</table>

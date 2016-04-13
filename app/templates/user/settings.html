@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row">
+	<div class="col-md-3"></div>
+	
+	<div class="col-md-6">
+{% from "_formhelpers.html" import render_field %}
+<form action="" method="post" name="edit">
+    <div class="form-group" style="width: 100%">
+	{{ form.hidden_tag() }}
+    {{ render_field(form.username) }}
+    {{ render_field(form.nickname) }}
+    {{ render_field(form.email)    }}
+    <td><input class="btn btn-sm btn-default" type="submit" value="Save"></td>
+    </div>
+</form>
+
+<br>
+<div class="well">
+<form action="{{ url_for('photo_upload') }}" method="post" name="profile_image" enctype="multipart/form-data">
+    <dt>Profile Photo</dt>
+    <img src="{{user.profile_url}}" id="profile-preview" class="img-rounded" width=128px>
+    {{photo.hidden_tag()}}
+
+    <span style="margin-left: 10px" class="btn btn-default btn-sm btn-file">
+        {{photo.image_url(style="display: inline")}}
+        Browse
+    </span>
+    <div style="display: inline" id="loading" ></div>
+    <input style="margin: 0px 10px" class="btn btn-primary btn-sm" type="button" onclick="spinIt()" value="Save Image">
+</form>
+<div class="label label-primary" id='file-feedback'></div>
+
+</div>
+
+<a href="{{ url_for('reset') }}">Reset Password</a>
+</div>
+
+<div class="col-md-3"></div>
+</div> <!-- ends row -->
+
+<script>
+document.getElementById("username").value = "{{user.username}}";
+document.getElementById("nickname").value = "{{user.nickname}}";
+document.getElementById("email").value = "{{user.email}}";
+
+$(document).on('change', '.btn-file :file', function() {
+    var input = $(this),
+        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.trigger('fileselect', [numFiles, label]);
+});
+
+$(document).ready( function() {
+    $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+        $("#file-feedback").html(label);
+        //$("#profile-preview").attr("src", "/static/images/hover.gif");
+    });
+});
+
+function spinIt() {
+    // Create the Spinner with options
+    var spinner = new Spinner({
+        lines: 10, // The number of lines to draw
+        length: 8, // The length of each line
+        width: 4, // The line thickness
+        radius: 10, // The radius of the inner circle
+        color: '#000', // #rbg or #rrggbb
+        speed: 1, // Rounds per second
+        trail: 80, // Afterglow percentage
+        shadow: false, // Whether to render a shadow
+        top: '50%',
+        left: '50%'
+    }).spin(document.getElementById('loading'));
+
+    $('[name = "profile_image"]').submit();
+}
+
+jQuery(function($) {
+    $('#profile-img').Jcrop({
+      aspectRatio: 1
+  });
+});
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,9 @@
+config
+instance
+start_dev.sh
+tmp
+db_repository
+run-production.py
+
+*.db
+*.pyc

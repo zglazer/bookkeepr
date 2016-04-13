@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+</div>
+
+<div class="jumbotron">
+	<div class="container">
+
+       <div class="row">
+          <div class="col-md-6">
+              <h1>Hello.</h1>
+              <p>We had a lot of fun making bookkeepr. Here's a little bit about how it came together.</p>
+          </div>
+
+          <div class="col-md-6">
+              <img class="pull-right img-responsive" src="/static/images/about-us.png">
+          </div>
+      </div>
+  </div> <!-- End Container -->
+</div> <!-- End Jumbotron -->
+
+<div class="container">
+  <div class="well">
+    <div class="row">
+     <div class="col-md-4">
+       <h4>Process</h4>
+       <p>
+         Bookkeepr started as a learning project. The idea was to create a space where anybody can list books they love, list books they want to read, catagorize volumes, etc. It was quick, simple, and fun. 
+       </p>
+     </div>
+     <div class="col-md-4">
+       <h4>Technology</h4>
+       <p>
+        Bookkeepr's backend is written using Flask, Jinja2, and PostgreSQL. The frontend uses Bootstrap with scripting components written using JavaScript.
+       </p>
+     </div>
+     <div class="col-md-4">
+       <h4>Design</h4>
+       <p>
+        Bookkeepr’s design is based on the hard, clean lines of the bookmark logo with an added illustrative element. Bootstrap was used to apply a consistent theme to the tables, buttons and grid.
+      </p>
+    </div>
+  </div><!--Ends Row-->
+</div><!--Ends Well-->
+
+<div style="padding-top: 25px; margin-top:50px;" class="row">
+  <div class="col-md-2 col-sm-4 col-xs-4">
+      <img class="img-circle img-responsive profile-img" src="/static/images/zach.jpg">
+  </div>
+
+  <div class="col-md-4 col-sm-8 col-xs-8">
+      <h3 style="margin-bottom: 15px">About Zach</h3>
+      <p>
+         I am a software engineer living in Madison, Wisconsin. My interest lies in using computers to make our lives more fun, creative, and productive.
+     </p>
+ </div>
+
+ <div class="col-md-2 col-sm-4 col-xs-4">
+  <img class="img-circle img-responsive profile-img" src="/static/images/jordan.jpg">
+</div>
+
+<div class="col-md-4 col-sm-8 col-xs-8">
+  <h3 style="margin-bottom: 15px">About Jordan</h3> 
+  <p>
+     I am a freelance graphic designer and illustrator from Madison, WI. I enjoy using my skills to create a memorable experience for brands and websites. 
+ </p>
+</div>
+</div><!--Ends Row-->
+
+</div><!--Ends Container-->
+
+<div class="container">
+
+{% endblock %}

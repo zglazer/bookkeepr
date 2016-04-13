@@ -1,0 +1,98 @@
+.header {
+    padding: 20px 0 0 0;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-style: heavy;
+    padding: 5px 5px;
+}
+
+.flash-message {
+    padding: 10px;
+    background-color: #ffe3ba;
+    border: 1px;
+    border-color: #ffc887;
+    border-style: solid;
+    text-align: center;
+}
+
+.navbar {
+    margin-top: 25px;
+}
+
+.greeting {
+    margin: 75px 0px;
+}   
+
+.login {
+    border: solid 1px #ffe3ba;
+}
+
+.td-profile-book {
+    padding: 0px 25px;
+}
+
+.h3 {
+    top-margin: 0px;
+}
+
+.profile-img {
+    border: solid 1px #dcdcdc;
+    padding: 5px;
+}
+
+.book-img {
+    border: solid 1px #dcdcdc;
+    padding: 5px;
+    margin: 20px 0px;
+}
+
+/*.panel-default {
+    border-color: #fff;
+}*/
+
+.panel-index {
+    border-color: #fff;
+}
+
+.jumbotron {
+    background-color: #49c0da;
+    padding-bottom: 0px;
+    background-image: url("/static/images/about-us-bg2.png");   
+    background-position: bottom;
+}
+
+.navbar-input-group {
+    font-size: 0px; /*removes whitespace between button and input*/
+}
+
+.navbar-input-group input {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+.navbar-input-group .btn {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-left: 0px;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}

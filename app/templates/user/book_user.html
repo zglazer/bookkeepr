@@ -1,0 +1,19 @@
+<tr valign="middle">
+    <!-- <td><img src="{{book.image_url}}"></td> -->
+    <td><a href="{{ url_for('book', book_id = book.id) }}"><span class="glyphicon glyphicon-book"></span> {{ book.title }}</a></td>
+    <td>{{ book.author }}</td>
+    {% if current_user == user %}
+        <td><a href="{{ url_for('remove_book', book_id = book.id) }}"><img src="/static/images/remove-icon.png" style="width:25px" title="Remove this book."></a></td>
+    {% endif %}
+    {# Removing this section for the time being. Add book from other user's profile
+    {% if current_user is not none and current_user.has_book(book) %}
+    <td><a href="{{ url_for('remove_book', book_id = book.id) }}"><img src="/static/images/remove-icon.png" style="width:25px" title="Remove this book."></a></td>
+    {% else %}
+    <td><a href="{{ url_for('add_book', book_id = book.id) }}"><img src="/static/images/add-icon.png" style="width:25px" title="Add this book."></a></td>
+    {% endif %}
+    #}
+
+    {% if current_user != user %}
+    <td></td>
+    {% endif %}
+</tr>
